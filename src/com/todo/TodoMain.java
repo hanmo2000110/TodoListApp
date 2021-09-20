@@ -12,12 +12,13 @@ public class TodoMain {
 	
 		Scanner sc = new Scanner(System.in);
 		TodoList l = new TodoList();
+		TodoUtil.loadList(l, "todolistapp.txt");
 		boolean isList = false;
 		boolean quit = false;
 		do {
-			Menu.displaymenu();
+			//Menu.displaymenu();
 			isList = false;
-			String choice = sc.next();
+			String choice = Menu.prompt();
 			switch (choice) {
 
 			case "add":
@@ -52,12 +53,17 @@ public class TodoMain {
 				isList = true;
 				break;
 
+			case "help":
+				Menu.displaymenu();
+				break;
+				
 			case "exit":
 				quit = true;
+				TodoUtil.saveList(l, "todolistapp.txt");
 				break;
 
 			default:
-				System.out.println("please enter one of the above mentioned command");
+				System.out.println(choice + " is not exist. Enter help to see menu.");
 				break;
 			}
 			
