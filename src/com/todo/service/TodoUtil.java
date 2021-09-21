@@ -68,7 +68,9 @@ public class TodoUtil {
 		}
 		
 		System.out.print("Enter the new description of item which is modifying. > ");
-		String new_description = sc.next().trim();
+		sc.nextLine();
+		String new_description = sc.nextLine();
+		
 		for (TodoItem item : l.getList()) {
 			if (item.getTitle().equals(title)) {
 				l.deleteItem(item);

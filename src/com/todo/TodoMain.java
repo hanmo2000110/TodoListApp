@@ -34,21 +34,25 @@ public class TodoMain {
 				break;
 				
 			case "ls":
+				System.out.println("\n[전체 목록]");
 				TodoUtil.listAll(l);
 				break;
 
 			case "ls_name_asc":
+				System.out.print("\n제목순으로 정렬하였습니다.");
 				l.sortByName();
 				isList = true;
 				break;
 
 			case "ls_name_desc":
+				System.out.print("\n제목역순으로 정렬하였습니다.");
 				l.sortByName();
 				l.reverseList();
 				isList = true;
 				break;
 				
 			case "ls_date":
+				System.out.print("\n날짜순으로 정렬하였습니다.");
 				l.sortByDate();
 				isList = true;
 				break;
@@ -60,6 +64,7 @@ public class TodoMain {
 			case "exit":
 				quit = true;
 				TodoUtil.saveList(l, "todolistapp.txt");
+				System.out.print("모든 데이터들이 저장되었습니다.");
 				break;
 
 			default:
@@ -69,5 +74,6 @@ public class TodoMain {
 			
 			if(isList) l.listAll();
 		} while (!quit);
+		
 	}
 }
