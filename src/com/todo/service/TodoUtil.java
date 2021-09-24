@@ -13,38 +13,51 @@ public class TodoUtil {
 	
 	public static void createItem(TodoList list) {
 		
-		String title, desc;
+		String title, desc, category, due_date;
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.print("Enter new item's name. > ");
 		
 		title = sc.next();
 		if (list.isDuplicate(title)) {
-			System.out.printf("it is already exist.");
+			System.out.println("it is already exist.");
 			return;
 		}
-		
-		System.out.print("Enter new item's description. > ");
+		System.out.print("Enter new item's category. > ");
 		sc.nextLine();
+		category = sc.nextLine();
+		
+		System.out.print("Enter new item's description. > ");	
 		desc = sc.nextLine();
 		
-		TodoItem t = new TodoItem(title, desc);
+		System.out.print("Enter new item's due date. > ");	
+		due_date = sc.nextLine();
+		
+		TodoItem t = new TodoItem(title, desc, category, due_date);
 		list.addItem(t);
+		System.out.println("the item is added.");
 	}
 
 	public static void deleteItem(TodoList l) {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("Enter the name of item which will be deleted. > ");
+		System.out.print("Enter the name of item which will be deleted. > ");
 		
-		String title = sc.next();
-		
+		int num = sc.nextInt();
+		int i = 1;
 		for (TodoItem item : l.getList()) {
-			if (title.equals(item.getTitle())) {
-				l.deleteItem(item);
+			if (i == num) {
+				System.out.print( i + item.toString() +"\nare you sure to delete this item? (y/n) > ");
+				String yon = sc.next();
+				if(yon.equals("y")) {
+					l.deleteItem(item);
+					System.out.println("the item is deleted");
+				}
+					
 				break;
 			}
+			i++;
 		}
 	}
 
@@ -53,9 +66,9 @@ public class TodoUtil {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.print("Enter the name of item which will be modified. > ");
-		String title = sc.next().trim();
-		if (!l.isDuplicate(title)) {
+		System.out.print("Enter the number of item which will be modified. > ");
+		int num = sc.nextInt();
+		if (l.length() < num) {
 			System.out.println("The item is not exist.");
 			return;
 		}
@@ -71,20 +84,30 @@ public class TodoUtil {
 		sc.nextLine();
 		String new_description = sc.nextLine();
 		
+		System.out.print("Enter the new category of item which is modifying. > ");
+		String new_category = sc.nextLine();
+		
+		System.out.print("Enter the new due date of item which is modifying. > ");
+		String new_due_date = sc.nextLine();
+		int i = 1;
 		for (TodoItem item : l.getList()) {
-			if (item.getTitle().equals(title)) {
+			if (i == num) {
 				l.deleteItem(item);
-				TodoItem t = new TodoItem(new_title, new_description);
+				TodoItem t = new TodoItem(new_title, new_description, new_category, new_due_date);
 				l.addItem(t);
 				System.out.println("The item is modified.");
 			}
+			i++;
 		}
 
 	}
 
 	public static void listAll(TodoList l) {
+		int i = 1;
+		System.out.println("[All List, " + l.length() + " items]");
 		for (TodoItem item : l.getList()) {
-			System.out.println("[" + item.getTitle() + "]: " + item.getDesc() + " (" + item.getCurrent_date() + ")");
+			System.out.println(i + ". [" + item.getCategory() + "]: " + item.getTitle() + " - " + item.getDesc() + " - " + item.getDue_date() + " - " + item.getCurrent_date());
+			i++;
 		}
 	}
 	
@@ -110,7 +133,7 @@ public class TodoUtil {
 				if(s == null) break;
 				StringTokenizer stk = new StringTokenizer(s,"##");
 				while(stk.hasMoreTokens()){
-					TodoItem i = new TodoItem(stk.nextToken(),stk.nextToken());
+					TodoItem i = new TodoItem(stk.nextToken(),stk.nextToken(),stk.nextToken(),stk.nextToken() );
 					i.setCurrent_date(stk.nextToken());
 					l.addItem(i);
 				}

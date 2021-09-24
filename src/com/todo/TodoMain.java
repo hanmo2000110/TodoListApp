@@ -15,10 +15,23 @@ public class TodoMain {
 		TodoUtil.loadList(l, "todolistapp.txt");
 		boolean isList = false;
 		boolean quit = false;
+		String key;
 		do {
 			//Menu.displaymenu();
 			isList = false;
 			String choice = Menu.prompt();
+			key = "";
+			if( choice.contains("find ") ) { 
+				String keyword[] = choice.split(" ");
+				choice = keyword[0];
+				key = keyword[1];
+			}
+			else if( choice.contains("find_cate ") ) { 
+				String keyword[] = choice.split(" ");
+				choice = keyword[0];
+				key = keyword[1];
+			}
+			
 			switch (choice) {
 
 			case "add":
@@ -56,7 +69,30 @@ public class TodoMain {
 				l.sortByDate();
 				isList = true;
 				break;
+				
+			case "ls_date_desc":
+				System.out.print("\n날짜역순으로 정렬하였습니다.");
+				l.sortByDate();
+				l.reverseList();
+				isList = true;
+				break;
 
+			case "ls_cate":
+				int n = l.sortCate();
+				if(n > 1)
+					System.out.print("\nthere are " + n + " categories.");
+				else 
+					System.out.print("\nthere is " + n + " categories.");
+				break;
+				
+			case "find":
+				l.find( key );
+				break;
+				
+			case "find_cate":
+				l.findCate( key );
+				break;
+				
 			case "help":
 				Menu.displaymenu();
 				break;
@@ -74,6 +110,5 @@ public class TodoMain {
 			
 			if(isList) l.listAll();
 		} while (!quit);
-		
 	}
 }
