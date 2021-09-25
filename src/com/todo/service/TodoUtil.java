@@ -10,7 +10,6 @@ import com.todo.dao.TodoItem;
 import com.todo.dao.TodoList;
 
 public class TodoUtil {
-	
 	public static void createItem(TodoList list) {
 		
 		String title, desc, category, due_date;
@@ -68,6 +67,7 @@ public class TodoUtil {
 		
 		System.out.print("Enter the number of item which will be modified. > ");
 		int num = sc.nextInt();
+		
 		if (l.length() < num) {
 			System.out.println("The item is not exist.");
 			return;
@@ -89,6 +89,7 @@ public class TodoUtil {
 		
 		System.out.print("Enter the new due date of item which is modifying. > ");
 		String new_due_date = sc.nextLine();
+		
 		int i = 1;
 		for (TodoItem item : l.getList()) {
 			if (i == num) {

@@ -19,7 +19,8 @@ public class TodoMain {
 		do {
 			//Menu.displaymenu();
 			isList = false;
-			String choice = Menu.prompt();
+			String choice = Menu.pro mpt();
+			
 			key = "";
 			if( choice.contains("find ") ) { 
 				String keyword[] = choice.split(" ");
