@@ -35,13 +35,12 @@ public class TodoList {
 	}
 
 	public void sortByName() {
-		System.out.println("[All List, " + length() + " items]");
 		Collections.sort(list, new TodoSortByName());
 
 	}
 
 	public void listAll() {
-		System.out.println("\n[전체 목록]");
+		System.out.println("[All List, " + length() + " items]");
 		int i = 1;
 		for (TodoItem myitem : list) {
 //			System.out.println(myitem.getTitle() + " " + myitem.getDesc());
@@ -55,7 +54,6 @@ public class TodoList {
 	}
 
 	public void sortByDate() {
-		System.out.println("[All List, " + length() + " items]");
 		Collections.sort(list, new TodoSortByDate());
 	}
 

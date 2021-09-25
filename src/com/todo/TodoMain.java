@@ -47,7 +47,6 @@ public class TodoMain {
 				break;
 				
 			case "ls":
-				System.out.println("\n[전체 목록]");
 				TodoUtil.listAll(l);
 				break;
 
