@@ -35,6 +35,7 @@ public class TodoList {
 	}
 
 	public void sortByName() {
+		System.out.println("[All List, " + length() + " items]");
 		Collections.sort(list, new TodoSortByName());
 
 	}
@@ -54,6 +55,7 @@ public class TodoList {
 	}
 
 	public void sortByDate() {
+		System.out.println("[All List, " + length() + " items]");
 		Collections.sort(list, new TodoSortByDate());
 	}
 
