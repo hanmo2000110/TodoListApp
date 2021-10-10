@@ -128,8 +128,6 @@ public class TodoList {
 			e.printStackTrace();
 		}
 		return list;
-
-
 	}
 
 	public void sortByName() {
@@ -160,7 +158,7 @@ public class TodoList {
 	}
 
 	public Boolean isDuplicate(String title) {
-		for (TodoItem item : list) {
+		for (TodoItem item : getList() ) {
 			if (title.equals(item.getTitle())) return true;
 		}
 		return false;
@@ -296,7 +294,7 @@ public class TodoList {
 	public ArrayList<TodoItem> getList(String keyword){
 		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
 		PreparedStatement pstmt;
-		System.out.print(keyword);
+		
 		keyword = "%"+keyword+"%";
 		try {
 			String sql = "SELECT * FROM list WHERE title like ? or memo like ?";
