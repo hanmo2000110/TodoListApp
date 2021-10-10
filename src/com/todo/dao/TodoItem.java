@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TodoItem {
+	private int id;
     private String title;
     private String desc;
     private String current_date;
@@ -15,6 +16,13 @@ public class TodoItem {
         this.title=title;
         this.desc=desc;
         this.current_date=f.format( new Date() );
+        this.category = category;
+        this.due_date = due_date;
+    }
+    public TodoItem(String title, String desc, String category, String due_date,String createdate){
+        this.title=title;
+        this.desc=desc;
+        this.current_date=createdate;
         this.category = category;
         this.due_date = due_date;
     }
@@ -48,7 +56,7 @@ public class TodoItem {
     }
     
     public String toString() {
-    	return ". [" + getCategory() + "]: " + getTitle() + " - " + getDesc() + " - " + getDue_date() + " - " + getCurrent_date();
+    	return id + ". [" + getCategory() + "]: " + getTitle() + " - " + getDesc() + " - " + getDue_date() + " - " + getCurrent_date();
     }
     
 	public String getCategory() {
@@ -80,5 +88,11 @@ public class TodoItem {
 		if(category.contains(keyword)) returnValue = true;
 		
 		return returnValue;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 }

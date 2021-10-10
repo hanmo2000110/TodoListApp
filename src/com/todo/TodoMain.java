@@ -12,15 +12,16 @@ public class TodoMain {
 	
 		Scanner sc = new Scanner(System.in);
 		TodoList l = new TodoList();
-		TodoUtil.loadList(l, "todolistapp.txt");
+//		l.importData("todolistapp.txt");
+		
 		boolean isList = false;
 		boolean quit = false;
 		String key;
 		do {
 			//Menu.displaymenu();
 			isList = false;
-			String choice = Menu.pro mpt();
-			
+			String choice = Menu.prompt();
+			 
 			key = "";
 			if( choice.contains("find ") ) { 
 				String keyword[] = choice.split(" ");
@@ -48,49 +49,43 @@ public class TodoMain {
 				break;
 				
 			case "ls":
-				TodoUtil.listAll(l);
+				TodoUtil.listAll(l,"id",1);
 				break;
 
-			case "ls_name_asc":
+			case "ls_name":
 				System.out.print("\n제목순으로 정렬하였습니다.");
-				l.sortByName();
+				TodoUtil.listAll(l,"title",1);
 				isList = true;
 				break;
 
 			case "ls_name_desc":
 				System.out.print("\n제목역순으로 정렬하였습니다.");
-				l.sortByName();
-				l.reverseList();
+				TodoUtil.listAll(l,"title",0);
 				isList = true;
 				break;
 				
 			case "ls_date":
 				System.out.print("\n날짜순으로 정렬하였습니다.");
-				l.sortByDate();
+				TodoUtil.listAll(l,"due_date",1);
 				isList = true;
 				break;
 				
 			case "ls_date_desc":
 				System.out.print("\n날짜역순으로 정렬하였습니다.");
-				l.sortByDate();
-				l.reverseList();
+				TodoUtil.listAll(l,"due_date",0);
 				isList = true;
 				break;
 
 			case "ls_cate":
-				int n = l.sortCate();
-				if(n > 1)
-					System.out.print("\nthere are " + n + " categories.");
-				else 
-					System.out.print("\nthere is " + n + " categories.");
+				TodoUtil.listCateAll(l);
 				break;
 				
 			case "find":
-				l.find( key );
+				TodoUtil.findlist(l, key);
 				break;
 				
 			case "find_cate":
-				l.findCate( key );
+				TodoUtil.findCateList(l, key);
 				break;
 				
 			case "help":
