@@ -11,20 +11,29 @@ public class TodoItem {
     private SimpleDateFormat f = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     private String category;
     private String due_date;
+    private String complete_check;
+    private String place;
+    private String preparement;
 
-    public TodoItem(String title, String desc, String category, String due_date){
+    public TodoItem(String title, String desc, String category, String due_date,String place,String preparement){
         this.title=title;
         this.desc=desc;
         this.current_date=f.format( new Date() );
         this.category = category;
         this.due_date = due_date;
+        this.complete_check = "0";
+        this.place = place;
+        this.preparement = preparement;
     }
-    public TodoItem(String title, String desc, String category, String due_date,String createdate){
+    public TodoItem(String title, String desc, String category, String due_date,String createdate,String place,String preparement){
         this.title=title;
         this.desc=desc;
         this.current_date=createdate;
         this.category = category;
         this.due_date = due_date;
+        this.complete_check = "0";
+        this.place = place;
+        this.preparement = preparement;
     }
     
     public String getTitle() {
@@ -56,7 +65,14 @@ public class TodoItem {
     }
     
     public String toString() {
-    	return id + ". [" + getCategory() + "]: " + getTitle() + " - " + getDesc() + " - " + getDue_date() + " - " + getCurrent_date();
+    	String check;
+    	if(complete_check.equals("1")) {
+    		check = "Y";
+    	}
+    	else {
+    		check = "N";
+    	}
+    	return id + ". [" + getCategory() + "]: " + getTitle() + " - " + getDesc() + " - " + getPlace() + " - " + getPreparement() + " - " + getDue_date() + " - " + getCurrent_date() + " - " + check;
     }
     
 	public String getCategory() {
@@ -94,5 +110,26 @@ public class TodoItem {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public String isComplete_check() {
+		return complete_check;
+	}
+	public void setComplete_check(String complete_check) {
+		this.complete_check = complete_check;
+	}
+	public String getPlace() {
+		return place;
+	}
+	public void setPlace(String place) {
+		this.place = place;
+	}
+	public String getPreparement() {
+		return preparement;
+	}
+	public void setPreparement(String preparement) {
+		this.preparement = preparement;
+	}
+	public String getComplete_check() {
+		return complete_check;
 	}
 }

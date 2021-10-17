@@ -41,11 +41,37 @@ public class TodoList {
 		return count;
 	}
 	
-	
+	public int checkItem(int index) {
+		String sql = "select * from list where id = "+ index +";";
+		String sql2 = "update list set complete_check=? where id = "+ index +";";
+		PreparedStatement pstmt;
+		Statement stmt;
+		String result = "0";
+		int count = 0;
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql); 
+			rs.next();
+			result = rs.getString("complete_check");
+			stmt.close();
+			if(result.equals("1")) {
+				System.out.println("이미 완료된 아이템입니다.");
+				return 0;
+			}
+			pstmt = conn.prepareStatement(sql2);
+			pstmt.setInt(1,1);
+			count = pstmt.executeUpdate(); 
+			list = getList();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
 	
 	
 	public int addItem(TodoItem t) {
-		String sql = "insert into list (title, memo, category, current_date, due_date)"+ " values (?,?,?,?,?);";
+		String sql = "insert into list (title, memo, category, current_date, due_date,complete_check,place,preparement)"+ " values (?,?,?,?,?,?,?,?);";
 		PreparedStatement pstmt;
 		int count = 0;
 		try {
@@ -55,6 +81,9 @@ public class TodoList {
 			pstmt.setString(3,t.getCategory()); 
 			pstmt.setString(4,t.getCurrent_date()); 
 			pstmt.setString(5,t.getDue_date());
+			pstmt.setString(6,t.getComplete_check());
+			pstmt.setString(7,t.getPlace()); 
+			pstmt.setString(8,t.getPreparement());
 			count = pstmt.executeUpdate(); 
 			pstmt.close();
 		}
@@ -63,7 +92,21 @@ public class TodoList {
 		}
 		return count;
 	}
-
+	public int addCate(TodoItem t) {
+		String sql = "insert into Category (name)"+ " values (?);";
+		PreparedStatement pstmt;
+		int count = 0;
+		try {
+			pstmt = conn.prepareStatement(sql); 
+			pstmt.setString(1,t.getCategory()); 
+			count = pstmt.executeUpdate(); 
+			pstmt.close();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
 	public int deleteItem(int index) {
 		String sql = "delete from list where id=?;"    ;
 		PreparedStatement pstmt;
@@ -81,7 +124,7 @@ public class TodoList {
 	}
 
 	public int updateItem(TodoItem t ) {
-		String sql = "update list set title=?, memo=?, category=?, current_date=?, due_date=? where id = ?;"    ;
+		String sql = "update list set title=?, memo=?, category=?, current_date=?, due_date=?, place=?, preparement=? where id = ?;"    ;
 		PreparedStatement pstmt;
 		int count = 0;
 		try {
@@ -91,7 +134,9 @@ public class TodoList {
 			pstmt.setString(3,t.getCategory()); 
 			pstmt.setString(4,t.getCurrent_date()); 
 			pstmt.setString(5,t.getDue_date());
-			pstmt.setInt(6,t.getId());
+			pstmt.setString(6,t.getPlace()); 
+			pstmt.setString(7,t.getPreparement());
+			pstmt.setInt(8,t.getId());
 			count = pstmt.executeUpdate(); 
 			pstmt.close();
 		} 
@@ -115,9 +160,13 @@ public class TodoList {
 				String category = rs.getString("category"); 
 				String due_date = rs.getString("due_date");
 				String current_date = rs.getString("current_date");
+				String check = rs.getString("complete_check");
+				String place = rs.getString("place");
+				String preparement = rs.getString("preparement");
 				 
-				TodoItem t = new TodoItem(title, description, category, due_date);
+				TodoItem t = new TodoItem(title, description, category, due_date,place, preparement);
 				t.setId(id);
+				t.setComplete_check(check);
 				t.setCurrent_date(current_date);
 				list.add(t);	
 				 
@@ -231,6 +280,7 @@ public class TodoList {
 				pstmt.setString(3,category); 
 				pstmt.setString(4,current_date); 
 				pstmt.setString(5,due_date);
+//				pstmt.setString(6,"0");
 				int count = pstmt.executeUpdate(); 
 				if(count > 0) records++; 
 				pstmt.close();
@@ -248,10 +298,10 @@ public class TodoList {
 		Statement stmt;
 		try {
 			stmt = conn.createStatement();
-			String sql = "SELECT DISTINCT category FROM list";
+			String sql = "SELECT * FROM Category";
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()) {
-				list.add(rs.getString("category"));
+				list.add(rs.getString("name"));
 			}
 			
 		}
@@ -277,7 +327,9 @@ public class TodoList {
 				String category = rs.getString("category"); 
 				String due_date = rs.getString("due_date");
 				String current_date = rs.getString("current_date");
-				TodoItem t = new TodoItem(title, description, category, due_date);
+				String place = rs.getString("place");
+				String preparement = rs.getString("preparement");
+				TodoItem t = new TodoItem(title, description, category, due_date,place,preparement);
 				t.setId(id);
 				list.add(t);
 			}
@@ -308,7 +360,9 @@ public class TodoList {
 				String category = rs.getString("category");
 				String createdate = rs.getString("current_date");
 				String duedate = rs.getString("due_date");
-				TodoItem t = new TodoItem(name,desc,category,createdate,duedate);
+				String place = rs.getString("place");
+				String preparement = rs.getString("preparement");
+				TodoItem t = new TodoItem(name,desc,category,createdate,duedate,place,preparement);
 				t.setId(rs.getInt("id"));
 				list.add(t);
 			}
@@ -333,8 +387,12 @@ public class TodoList {
 				String category = rs.getString("category");
 				String createdate = rs.getString("current_date");
 				String duedate = rs.getString("due_date");
-				TodoItem t = new TodoItem(name,desc,category,createdate,duedate);
+				String check = rs.getString("complete_check");
+				String place = rs.getString("place");
+				String preparement = rs.getString("preparement");
+				TodoItem t = new TodoItem(name,desc,category,createdate,duedate,place,preparement);
 				t.setId(rs.getInt("id"));
+				t.setComplete_check(check);
 				list.add(t);
 			}
 		}

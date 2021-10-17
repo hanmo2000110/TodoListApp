@@ -12,7 +12,7 @@ public class TodoMain {
 	
 		Scanner sc = new Scanner(System.in);
 		TodoList l = new TodoList();
-//		l.importData("todolistapp.txt");
+		//l.importData("todolistapp.txt");
 		
 		boolean isList = false;
 		boolean quit = false;
@@ -44,6 +44,10 @@ public class TodoMain {
 				TodoUtil.deleteItem(l);
 				break;
 				
+			case "del_mul":
+				TodoUtil.deleteItemMulti(l);
+				break;
+				
 			case "edit":
 				TodoUtil.updateItem(l);
 				break;
@@ -55,25 +59,25 @@ public class TodoMain {
 			case "ls_name":
 				System.out.print("\n제목순으로 정렬하였습니다.");
 				TodoUtil.listAll(l,"title",1);
-				isList = true;
+				
 				break;
 
 			case "ls_name_desc":
 				System.out.print("\n제목역순으로 정렬하였습니다.");
 				TodoUtil.listAll(l,"title",0);
-				isList = true;
+				
 				break;
 				
 			case "ls_date":
 				System.out.print("\n날짜순으로 정렬하였습니다.");
 				TodoUtil.listAll(l,"due_date",1);
-				isList = true;
+				
 				break;
 				
 			case "ls_date_desc":
 				System.out.print("\n날짜역순으로 정렬하였습니다.");
 				TodoUtil.listAll(l,"due_date",0);
-				isList = true;
+				
 				break;
 
 			case "ls_cate":
@@ -98,12 +102,20 @@ public class TodoMain {
 				System.out.print("모든 데이터들이 저장되었습니다.");
 				break;
 
+			case "check":
+				TodoUtil.checkItem(l);
+				break;
+				
+			case "check_mul":
+				TodoUtil.checkItemMulti(l);
+				break;
+				
 			default:
 				System.out.println(choice + " is not exist. Enter help to see menu.");
 				break;
 			}
 			
-			if(isList) l.listAll();
+			
 		} while (!quit);
 	}
 }
