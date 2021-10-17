@@ -17,6 +17,9 @@ public class Menu {
         System.out.println("8. ls_date- 날짜역순 정렬");
         System.out.println("9. find <key word> - 키워드로 타이틀과 설명에서 검색");
         System.out.println("10. find_cate <key word> - 키워드를 카테고리에서 검색");
+        System.out.println("11. check - 완료 필드 체크");
+        System.out.println("12. check_mul - 완료 필드 체크 한번에 여러개 가능");
+        System.out.println("13. del_mul - 아이템 삭제 한번에 여러개 가능");
         System.out.println("11. exit - 종료");
         
     }
