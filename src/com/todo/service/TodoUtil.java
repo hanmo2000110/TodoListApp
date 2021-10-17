@@ -70,7 +70,6 @@ public class TodoUtil {
 		
 		TodoItem t = new TodoItem(title, desc, category, due_date,place,preparement );
 		int n = list.addItem(t);
-		System.out.print(n);
 		if(n > 0) {
 			System.out.print("추가되었습니다.");
 			if(list.getCategories().contains(category) == false ) {
